@@ -1,16 +1,8 @@
 {
     "version": 2,
-    "functions": {
-        "api": {
-            "runtime": "python3.8",
-            "handler": "app.py"
-        }
-    },
+    "functions": { "api": { "runtime": "python3.8" } },
     "routes": [
         { "handle": "filesystem" },
-        {
-            "src": "/(.*)",
-            "dest": "/app"
-        }
+        { "src": "/(.*)", "dest": "/api" }
     ]
 }
