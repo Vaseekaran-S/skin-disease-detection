@@ -1,0 +1,79 @@
+
+  /* Hide scrollbar for all elements */
+::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #646d70;
+  opacity: .9;
+  border-radius: 22px;
+}
+
+/* Optional: Style scrollbar on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #646d70;
+  opacity: 1;
+  border-radius: 22px;
+}
+
+.link-none a{
+  text-decoration: none !important;
+  color: white !important;
+}
+
+
+.flex-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.m-vh-100 {
+  min-height: 100vh;
+}
+
+.mw-600{
+  min-width: 600px;
+}
+
+.upload-img{
+  height: 200px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+
+.skel{
+  height: 13px;
+  width: 200px;
+  background-color: gray;
+  border-radius: 4px;
+  margin-top: 15px;
+}
+
+
+.loader-parent{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(255, 255, 255, 0.288);
+  display: none;
+  z-index: 300;
+}
+
+.loader-parent img{
+  height: 50px;
+  width: 50px;
+}

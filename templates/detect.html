@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detect Disease</title>
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="/static/css/detect.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+  <!-- Header -->
+  <section class="bg-dark position-fixed top-0 left-0 w-100">
+    <div class="container">
+      <div class="py-3 d-flex align-items-center justify-content-between text-white">
+        <h4>Skin Disease Detect</h4>
+        <ul class="d-flex gap-3 list-unstyled link-none m-0">
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/detect">Detect</a>
+          </li>
+          <li>
+            <a href="/doctors">Doctors</a>
+          </li>
+          <li>
+            <a href="/profile">Profile</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Detection -->
+  <section>
+    <div class="container">
+      <div class="m-vh-100 flex-center flex-column pt-5">
+        <h3 class="font-weight-bold">Upload your skin Image</h3>
+
+        <div class="row mw-600 m-4 border p-4 rounded shadow">
+          <div class="col-lg-6">
+            <h5 class="text-center mb-3">Image</h5>
+            <img id="chosen-image" class="upload-img cursor-pointer" onclick="uploadImage()"
+              src="https://www.creativefabrica.com/wp-content/uploads/2021/04/05/Image-Upload-Icon-Graphics-10388650-1.jpg">
+          </div>
+          <div class="col-lg-6">
+            <h5 class="text-center mb-5">Result</h5>
+            <div>
+              <div id="result_dummy">
+                <div class="skel"></div>
+                <div class="skel"></div>
+                <div class="skel"></div>
+              </div>
+              <div id="results" style="display: none;">
+                <div class="d-flex">
+                  <h6>Disease : <span id="disease"></span></h6>
+                </div>
+                <div class="d-flex">
+                  <h6>Accuracy : <span id="accuracy"></span></h6>
+                </div>
+                <div class="d-flex">
+                  <h6>Medicine : <span id="medicine"></span></h6>
+                </div>
+                <a href="https://www.google.com/maps/search/dermatologist" target="_blank">See Doctors On Map</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="error-container"></div>
+
+        <form id="uploadForm" enctype="multipart/form-data">
+          <input type="file" name="file" id="upload" accept="image/*" class="d-none">
+          <!-- <label for="upload" class="btn btn-dark">Upload Image</label> -->
+        </form>
+
+        <button id="resultBtn" class="btn btn-success">See Resuilt</button>
+        <a href="/doctors" id="seeDoctors" class="btn btn-success" style="display: none;">See Nearby Doctors</a>
+
+      </div>
+    </div>
+  </section>
+
+  <div id="loading-spinner" class="loader-parent flex-center">
+    <img src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif" alt="Loader">
+  </div>
+
+  <script>
+    const user = sessionStorage.getItem("sdd_user")
+    if (!user) {
+      location.href = "/signup"
+    }
+
+    
+    let uploadBtn = document.getElementById("upload");
+    function uploadImage() {
+      uploadBtn.click()
+    }
+
+  </script>
+
+
+  <script src="/static/js/detect.js" type="module"></script>
+</body>
+
+</html>

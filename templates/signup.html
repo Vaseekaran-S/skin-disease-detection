@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/static/css/sign.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+
+    
+    <!-- CSS Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+
+    <style>
+        .m-0 {
+            margin: 0px;
+        }
+    </style>
+</head>
+
+<body class="bg-secondary container">
+
+    <div class="container">
+        <div class="card p-4 shadow">
+            <h2 class="text-center">New to our application! Sign up</h2>
+            <hr>
+            <div>
+                <div class="row justify-content-center">
+    
+                    <div class="col-lg-4">
+                        <label class="label" for="User">User Name</label><br>
+                        <input id="username" type="text" placeholder="Enter user name"> <br>
+                    </div>
+    
+                    <div class="col-lg-4">
+                        <label class="label" for="">Full Name</label><br>
+                        <input id="name" type="text" placeholder="Enter your Full Name"> <br>
+                    </div>
+    
+                    <div class="col-lg-4">
+                        <label class="label" for="">E-mail</label><br>
+                        <input id="email" type="email" placeholder="Enter your email"> <br>
+                    </div>
+    
+                    <div class="col-lg-4">
+                        <label class="label" for="">Mobile</label><br>
+                        <input id="mobile" type="number" placeholder="Enter mobile number"> <br>
+                    </div>
+    
+                    <div class="col-lg-4">
+                        <label class="label" for="">Gender</label><br>
+                        <select id="gender">
+                            <option value="" selected disabled>Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="others">Others</option>
+                        </select>
+                    </div>
+    
+                    <div class="col-lg-4">
+                        <label class="label" for="">Date of Birth</label><br>
+                        <input id="dob" type="date" min="1950-01-01" max="2014-01-01"> <br>
+                    </div>
+    
+                    <div class="col-lg-4">
+                        <label class="label" for="">City</label><br>
+                        <input id="city" type="text" placeholder="Enter nearby city"> <br>
+                    </div>
+    
+                    <div class="col-lg-4">
+                        <label class="label" for="password">Password</label><br>
+                        <input id="password" type="password" placeholder="Enter password"><br>
+                    </div>
+    
+                </div>
+    
+    
+                <div class="btn_div">
+                    <button id="subBtn" class="btn btn-success">Sign Up</button>
+                    <div class="singup_link">
+                        <h5>Already a member?</h5>
+                        <a href="/login" class="text-black mx-2">login here</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loading-spinner" class="loader-parent flex-center">
+        <img src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif" alt="Loader">
+    </div>
+
+    <script>
+
+        const subBtn = document.getElementById("subBtn")
+        const loader = document.getElementById("loading-spinner")
+
+        subBtn.addEventListener("click", async () => {
+
+            const name = document.getElementById("name").value;
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const mobile = document.getElementById("mobile").value;
+            const gender = document.getElementById("gender").value;
+            const city = document.getElementById("city").value;
+            const dob = document.getElementById("dob").value;
+            const password = document.getElementById("password").value;
+
+            if(!username || !password || !name || !email || !mobile || !gender || !city || !dob){
+                alert("Enter all Details")
+                return
+            }
+            
+            subBtn.disabled = true
+            loader.style.display = "flex"
+
+            const ipAddress = await getIpAddress()
+            const locationDetails = await getIpDetails(ipAddress)
+
+            const request = await fetch("/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, username, email, mobile, gender, dob, city, password, ipAddress, locationDetails })
+            })
+
+            const response = await request.json()
+
+            if (response.status == 202) {
+                sessionStorage.setItem('sdd_user', username)
+                location.href = "/"
+            } else {
+                alert("Username Already Taken!")
+            }
+            subBtn.disabled = false
+            loader.style.display = "none"
+
+        })
+
+        async function getIpAddress() {
+            const response = await fetch('https://ipinfo.io/json');
+            const data = await response.json();
+            const ip = data.ip;
+            return ip;
+        }
+
+        async function getIpDetails(ipAddress) {
+            const response = await fetch(`https://ipinfo.io/${ipAddress}/json`);
+            const data = await response.json();
+            return data;
+        }
+
+    </script>
+
+</body>
+
+</html>

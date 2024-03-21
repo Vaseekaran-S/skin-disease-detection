@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/css/sign.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+
+</head>
+
+<body>
+
+    <div class="center">
+        <h2>Already have an account! </h2>
+        <div>
+            <label for="username">Username</label><br>
+            <input id="username" type="text" placeholder="Please enter username"> <br>
+
+            <label for="password">Password</label><br>
+            <input id="password" type="password" placeholder="Please enter your password"><br>
+            <div class="btn_div">
+
+                <button id="subBtn">Login</button>
+                <div class="singup_link">
+                    <h3> Not a member?
+                    </h3>
+                    <a href="/signup">sing up here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loading-spinner" class="loader-parent flex-center">
+        <img src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif" alt="Loader">
+    </div>
+
+    <script>
+
+        const subBtn = document.getElementById("subBtn")
+        const loader = document.getElementById("loading-spinner")
+        
+        subBtn.addEventListener("click", async()=>{
+            
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if(!username || !password){
+                alert("Enter all Details")
+                return
+            }
+            loader.style.display = "flex"
+
+            const request = await fetch("/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({username,password})
+            })
+            const response = await request.json()
+
+            if(response.status == 202){
+                sessionStorage.setItem('sdd_user', username)
+                location.href = "/"
+            }else{
+                alert("Username or Password Wrong!")
+            }
+            loader.style.display = "none"
+
+        })
+
+    </script>
+
+    </form>
+</body>
+
+</html>
